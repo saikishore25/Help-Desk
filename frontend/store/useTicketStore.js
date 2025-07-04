@@ -23,6 +23,29 @@ const useTicketStore = create(
             isAuthenticated: false,
             setIsAuthenticated: (value) => set({ isAuthenticated: value }),
 
+            loginUser: async (data) => {
+                try {
+                    const response = await axios.post(`${get().backendURL}/api/auth/login`, data, {
+                        withCredentials: true,
+                    });
+
+                    const user = response.data.user;
+                    const userID = response.data.userID;
+
+                    set({
+                        user,
+                        userID,
+                        isAuthenticated: true,
+                        error: null,
+                    });
+
+                    return true;
+                } catch (error) {
+                    set({ error: error.response?.data?.message || 'Login failed' });
+                    return false;
+                }
+            },
+
             submitTicket: async (ticketData) => {
 
                 set({ loading: true, error: null });
@@ -91,13 +114,9 @@ const useTicketStore = create(
 
                     });
 
-                    set({
-                        user: null,
-                        isAuthenticated: false,
-                        ticketNumber: null,
-                        error: null,
-                        loading: false,
-                    });
+                    set({}, true); // clears all state
+                    //  Remove persisted store manually
+                    localStorage.removeItem('ticket-storage');
 
                 } 
                 

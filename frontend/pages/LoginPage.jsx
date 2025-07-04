@@ -8,27 +8,17 @@ const LoginPage = () => {
     const {register, handleSubmit, formState: { errors }} = useForm();
     const navigate = useNavigate()
 
-    const {isAuthenticated,backendURL, user, userID} = useTicketStore()
+    const {isAuthenticated,backendURL, user, userID, loginUser} = useTicketStore()
     console.log(backendURL)
 
     const onSubmit = async(data) => {
 
-        console.log(data)
-        try{
-
-            const res = await axios.post(`${backendURL}/api/auth/login`, data, {
-                withCredentials: true, 
-            });
-
-
+        const success = await loginUser(data);
+        if (success) {
             alert("Login successful!");
             navigate('/dashboard');
-        } 
-        
-        catch(err){
-
-            console.error('Login error:', err);
-            alert(err.response?.data?.message || 'Login failed');
+        } else {
+            alert("Login failed. Please check your credentials.");
         }
         
     };
