@@ -18,6 +18,7 @@ const allowedOrigins = [
 
 
 
+
 // ✅ Main CORS middleware
 app.use(cors({
   origin: allowedOrigins,
@@ -36,4 +37,4 @@ app.use("/api/auth", userRoutes);
 app.use("/api/tickets", ticketRoutes);
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+export default app;
