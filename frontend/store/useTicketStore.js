@@ -53,7 +53,9 @@ const useTicketStore = create(
                 try{
                     const response = await axios.post(
                         `${get().backendURL}/api/tickets/createticket`,
-                        { ...ticketData, user: get().userID }
+                        { ...ticketData, user: get().userID }, {
+                            withCredentials: true
+                        }
                     );
 
                     set({ loading: false, ticketNumber: response.data.ticketNumber });

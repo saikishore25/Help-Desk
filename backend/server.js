@@ -1,43 +1,44 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 import userRoutes from "./routes/userRoute.js";
 import ticketRoutes from "./routes/ticketRoute.js";
 import connectDB from "./dbConnect.js";
-import cookieParser from "cookie-parser";
+
+dotenv.config();
+connectDB();
 
 const app = express();
 
-// ✅ Add CORS preflight handling (for OPTIONS requests)
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://help-desk-frontend-nine.vercel.app"
+];
+
+// ✅ Handle preflight requests first
 app.options("*", cors({
-  origin: ["http://localhost:5173", "https://help-desk-frontend-nine.vercel.app"],
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
 
-// ✅ Actual CORS setup
+// ✅ Main CORS middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "https://help-desk-frontend-nine.vercel.app"],
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
 
-// ✅ Middleware
+// ✅ Body parser and cookie
 app.use(express.json());
 app.use(cookieParser());
 
-const PORT = process.env.PORT || 3001;
-connectDB();
-
-// ✅ Base route
 app.get("/", (req, res) => {
-  return res.json({ message: "API RUNNING SUCCESSFULLY" });
+  res.json({ message: "API running successfully" });
 });
 
-// ✅ Routes
 app.use("/api/auth", userRoutes);
 app.use("/api/tickets", ticketRoutes);
 
-// ✅ Start server
-app.listen(PORT, () => {
-  console.log(`Server Running on Port ${PORT}`);
-});
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
