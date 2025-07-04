@@ -13,15 +13,10 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://help-desk-frontend-nine.vercel.app"
+  "http://localhost:5173"
 ];
 
-// ✅ Handle preflight requests first
-app.options("*", cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
+
 
 // ✅ Main CORS middleware
 app.use(cors({
