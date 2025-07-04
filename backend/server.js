@@ -10,8 +10,8 @@ import cookieParser from "cookie-parser"
 
 const app = express();
 app.use(cors({
-    origin: ["https://help-desk-frontend-bay.vercel.app"
-    ],
+    origin: "https://help-desk-frontend-bay.vercel.app",
+    
     credentials:true
 }))
 app.use(express.json());
