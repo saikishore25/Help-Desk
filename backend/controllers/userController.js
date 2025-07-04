@@ -60,7 +60,7 @@ const Login = async (req, res) => {
         } 
 
         const token = generateTokenAndSetCookie(user._id, res)
-        return res.status(200).json({message:"User Logged In Successfully",user});
+        return res.status(200).json({message:"User Logged In Successfully",user, userID:user._id});
     } 
     
     catch(error){
