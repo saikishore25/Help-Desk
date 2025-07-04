@@ -9,6 +9,10 @@ import cookieParser from "cookie-parser"
 
 
 const app = express();
+app.options('*', cors({
+  origin: "https://help-desk-frontend-bay.vercel.app",
+  credentials: true
+}));
 app.use(cors({
     origin: "https://help-desk-frontend-bay.vercel.app",
     
